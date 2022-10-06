@@ -1,0 +1,76 @@
+import java.util.*;
+import java.util.function.*;
+import java.util.stream.Stream;
+import java.util.stream.Collectors;
+class Employee {
+    String name;
+    int salary;
+    Employee(String name, int salary){
+        this.name = name;
+        this.salary = salary;
+    }
+    public String getName() {return this.name;}
+    public void setName(String name){
+        this.name = name;
+    }
+    public int getSalary() {return this.salary;}
+    public void setSalary(int salary){
+        this.salary = salary;
+    }
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder("<");
+        sb.append("name: ");
+        sb.append(name);
+        sb.append(" salary: ");
+        sb.append("" + salary+">");
+        return sb.toString();
+
+    }
+}
+class EmployeeInfo{
+    public enum SortMethod {
+        BYNAME, BYSALARY;
+    };
+    public List<Employee> sort(List<Employee> emps, final SortMethod method){
+        List<Employee> list;
+        if(method.equals(SortMethod.BYNAME)){
+            list = emps.stream().sorted((p1,p2)->{
+                if(p1.name.compareTo(p2.name) == 0)
+                    return Integer.compare(p1.getSalary(), p2.getSalary());
+                return p1.name.compareTo(p2.name);
+            }).collect(Collectors.toList());
+        }
+        else{
+            list = emps.stream().sorted((p1,p2)->{
+                if(Integer.compare(p1.getSalary(), p2.getSalary()) == 0)
+                    return p1.name.compareTo(p2.name);
+            return Integer.compare(p1.getSalary(), p2.getSalary());
+            }).collect(Collectors.toList());
+        } 
+        System.out.println(list);
+        return list;
+    }
+    public boolean isCharacterPresentInAllNames(Collection<Employee> entities, String character){
+        System.out.println(character);
+        System.out.println(entities);
+        boolean res = entities.stream().allMatch(emp->emp.getName().toUpperCase().contains(character.toUpperCase()));
+        System.out.println(res);
+        return res;
+    }
+}
+
+class Source{
+    public static void main(String[] args){
+        List<Employee> emps = new ArrayList<>();
+        emps.add(new Employee("Mickey", 100000));
+        emps.add(new Employee("Timmy", 500));
+        emps.add(new Employee("Annny", 40000)); 
+
+        EmployeeInfo EI = new EmployeeInfo();
+        //System.out.println(EI.sort(emps, EmployeeInfo.SortMethod.BYNAME));
+        //System.out.println(EI.sort(emps, EmployeeInfo.SortMethod.BYSALARY));
+        //System.out.println(EI.isCharacterPresentInAllNames(emps, "Til"));
+    }
+}
+

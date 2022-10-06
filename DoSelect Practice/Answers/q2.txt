@@ -1,0 +1,71 @@
+import java.io.*;
+import java.util.*;
+import java.text.*;
+import java.math.*;
+import java.util.regex.*;
+import java.lang.reflect.Method;
+
+class Mobile{
+    // Write your code here..
+	HashMap<String, ArrayList<String>> mobiles = new HashMap<>();
+
+	public String addMobile(String company, String model){
+		if(mobiles.containsKey(company)){
+			mobiles.get(company).add(model);
+			//System.out.println("Added to existing " + company);
+		} else {
+			ArrayList<String> list = new ArrayList<>();
+			list.add(model);
+			mobiles.put(company, list);
+			//System.out.println("Created new " + company);
+		}
+		return "model successfully added";
+	}
+	public ArrayList<String> getModels(String company){
+		if(mobiles.containsKey(company)){
+			ArrayList<String> list = mobiles.get(company);
+			if(!list.isEmpty())
+				return list;
+			return null;
+		} 
+		return null;
+	}
+	public String buyMobile(String company, String model){
+		String error = "item not available";
+		if(!mobiles.containsKey(company))
+			return error;
+		ArrayList<String> list = mobiles.get(company);
+		if(!list.contains(model))
+			return error;
+		list.remove(model);
+		return "mobile sold successfully";
+	}
+
+	@Override
+	public String toString(){
+		StringBuilder output = new StringBuilder();;
+		mobiles.forEach((key, list) -> {
+			output.append(key + " : " + list + "\n");
+		});
+		return output.toString();
+	}
+}
+
+public class Source {
+	public static void main(String args[] ) throws Exception {
+		/* Enter your code here. Read input from STDIN. Print output to STDOUT */
+
+		Mobile mobile = new Mobile();
+		mobile.addMobile("Samsung", "S3");
+		mobile.addMobile("Samsung", "S22");
+		mobile.addMobile("Iphone", "13");
+		mobile.addMobile("Iphone", "14 Pro");
+		System.out.println(mobile);
+		System.out.println(mobile.getModels("Iphon"));
+		System.out.println(mobile.buyMobile("Iphon", "he"));
+		System.out.println(mobile.buyMobile("Iphone", "13"));
+		System.out.println(mobile.buyMobile("Iphone", "14 Pro"));
+		System.out.println(mobile.buyMobile("Iphone", "134"));
+		System.out.println(mobile);
+	}
+}

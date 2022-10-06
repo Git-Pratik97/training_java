@@ -1,0 +1,45 @@
+import java.io.*;
+import java.util.*;
+import java.text.*;
+import java.math.*;
+import java.util.regex.*;
+
+class CompanyJobRepository {
+	static String getJobPrediction(int age, String highestQualification) throws NotEligibleException{
+		System.out.println(age + " " + highestQualification);
+		if(age<19)
+			throw new NotEligibleException("You are underage for any job");
+		System.out.println("stage 1");
+		if(age>=26 & (highestQualification.equals("M.S")
+			| highestQualification.equals("PhD")))
+			return "We have openings for senior developer";
+		System.out.println("stage 2");
+		if(age>=21 & highestQualification.equals("B.E"))
+			return "We have openings for junior developer";		
+		System.out.println("stage 3");
+		if(age>=19 & !(highestQualification.equals("B.E") 
+			| highestQualification.equals("M.S")
+			| highestQualification.equals("PhD")))
+			throw new NotEligibleException("We do not have any job that matches your qualifications");
+		System.out.println("stage 4");
+		//return "hello";
+		return "Sorry we have no openings for now";
+	}
+}
+
+public class Source {
+	public static void main(String args[] )  {
+		/* Enter your code here. Read input from STDIN. Print output to STDOUT */
+	}
+	public String searchForJob(int age, String highestQualification) throws NotEligibleException{
+		System.out.println(age + " " + highestQualification);
+		if(age>=200 | age<=0) 
+			throw new NotEligibleException("The age entered is not typical for a human being");
+		return CompanyJobRepository.getJobPrediction(age, highestQualification);
+	}
+}
+class NotEligibleException extends Exception {
+	NotEligibleException(String message){
+		super(message);
+	}
+}

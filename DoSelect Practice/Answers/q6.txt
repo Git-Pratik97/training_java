@@ -1,0 +1,120 @@
+import java.io.*;
+import java.util.*;
+import java.text.*;
+import java.math.*;
+import java.util.regex.*;
+
+class Candidate{
+  //Write Your Code Here..
+  String name;
+  int id;
+  int age;
+  String gender;
+  String department;
+  int yearOfJoining;
+  private double salary;
+
+  public Candidate(int id, String name, int age, String gender, String department, int yearOfJoining, double salary){
+    this.id = id;
+    this.name = name;
+    this.age = age;
+    this.gender = gender;
+    this.department = department;
+    this.yearOfJoining = yearOfJoining;
+    this.salary = salary;
+  }
+
+  public int getId(){return this.id;}
+  public String getName(){return this.name;}
+  public int getAge(){return this.age;}
+  public String getGender(){return this.gender;}
+  public String getDepartment(){return this.department;}
+  public int getYearOfJoining(){return this.yearOfJoining;}
+  public double getSalary(){return this.salary;}
+  public void setId(int id){this.id = id;}
+  public void setName(String name){this.name = name;}
+  public void setAge(int age){this.age = age;}
+  public void setGender(String gender){this.gender = gender;}
+  public void setDepartment(String department){this.department = department;}
+  public void setYearOfJoining(int yearOfJoining){this.yearOfJoining = yearOfJoining;}
+  public void setSalary(double salary){this.salary = salary;}
+     @Override
+    public String toString() {
+        return "Employee [id=" + id + ", name=" + name + ", age=" + age + ", gender=" + gender + ", department="
+                + department + ", yearOfJoining=" + yearOfJoining + ", salary=" + salary + "]";
+    }
+}
+
+class Implementation{
+  //Write Your Code Here..
+  public Map<String, Long> getCount(List<Candidate> list){
+    //System.out.println(list);
+    Map<String, Long> countMap = new HashMap<>();
+    long male = list.stream().filter(candidate->candidate.getGender().toLowerCase().equals("male")).count();
+    long female = list.stream().filter(candidate->candidate.getGender().toLowerCase().equals("female")).count();
+     if(female>0)
+      countMap.put("Female", female);
+      if(male>0)
+     countMap.put("Male", male);
+    //System.out.println(countMap);
+    return countMap;
+  }
+  public Map<String, Double> getAverageAge(List<Candidate> list){
+    //System.out.println(list);
+    Map<String, Double> ageMap = new HashMap<>();
+    OptionalDouble male = list.stream()
+      .filter(candidate->candidate.getGender().toLowerCase().equals("male"))
+      .map(candidate->candidate.getAge())
+      .mapToInt(Integer::intValue)
+      .average();
+    
+    OptionalDouble female = list.stream()
+      .filter(candidate->candidate.getGender().toLowerCase().equals("female"))
+      .map(candidate->candidate.getAge())
+      .mapToInt(Integer::intValue)
+      .average();
+    //System.out.println(male);
+    //System.out.println(female);
+    
+    if(female.isPresent())
+      ageMap.put("Female", female.getAsDouble());
+    if(male.isPresent())
+     ageMap.put("Male", male.getAsDouble());
+    //System.out.println(ageMap);
+    return ageMap;
+  }
+  public Map<String, Long> countCandidatesDepartmentWise(List<Candidate> list){
+    //System.out.println(list);
+    Map<String, Long> deptMap = new HashMap<>();
+    list.stream().forEach(candidate->{
+      String dept = candidate.getDepartment();
+      if(deptMap.containsKey(dept)){
+        deptMap.replace(dept, deptMap.get(dept) + 1);
+      } else{
+        deptMap.put(dept, Long.valueOf(1));
+      }
+    });
+    //System.out.println(deptMap);
+    return deptMap;
+  }
+  public Optional<Candidate> getYoungestCandidateDetails(List<Candidate> list){
+    Optional<Candidate> youngcand= list.stream()
+    .filter(c -> c.getGender().equals("Male") & c.getDepartment().equals("Product Development"))
+    .min((p1,p2)->Integer.compare(p1.getAge(), p2.getAge()));
+    return youngcand;
+  }
+}
+
+public class Source {
+	public static void main(String args[] ) throws Exception {
+		/* Enter your code here. Read input from STDIN. Print output to STDOUT */
+    List<Candidate> list = new ArrayList<>();
+    list.add(new Candidate(111, "Jiya Brein", 32, "Female", "HR", 2011, 25000.0));
+    list.add(new Candidate(144, "Scarlet Jhonson", 28, "Male", "Product Development", 2014, 32500.0));
+    Implementation imp = new Implementation();
+    System.out.println(imp.getCount(list));
+    System.out.println(imp.getAverageAge(list));
+    System.out.println(imp.countCandidatesDepartmentWise(list));
+    System.out.println(imp.getYoungestCandidateDetails(list));
+	}
+}

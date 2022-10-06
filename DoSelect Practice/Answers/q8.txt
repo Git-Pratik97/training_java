@@ -1,0 +1,53 @@
+import java.util.*;
+import java.lang.*;
+import java.util.regex.*;
+
+class TransactionParty {
+    String seller;
+    String buyer;
+    public TransactionParty(String seller, String buyer){
+      this.seller = seller;
+      this.buyer = buyer;
+    }
+}
+
+class Receipt{
+    TransactionParty transactionParty;
+    String productQR;
+    String productsQR;
+    public Receipt(TransactionParty transactionParty, String productQR){
+      this.transactionParty = transactionParty;
+      this.productQR = productQR;
+      this.productsQR = productQR;
+    }
+}
+
+
+class GenerateReceipt{
+    public int verifyParty(Receipt r){
+      System.out.println(r.transactionParty.seller + ", " + r.transactionParty.buyer);
+      boolean seller = r.transactionParty.seller.matches("^[A-Za-z][A-Za-z'\\-\\s]+[A-Za-z]$");
+      boolean buyer = r.transactionParty.buyer.matches("^[A-Za-z][A-Za-z'\\-\\s]+[A-Za-z]$");
+      int res = (seller? 1:0) + (buyer? 1:0);
+      return res;
+    }
+    public String calcGST(Receipt r){
+      System.out.println(r.productQR);
+      int gstRate = 12;
+      String[] products = r.productQR.split("@");
+      int cal = 0;
+      for(String product: products){
+        String[] valString = product.split(","); 
+        cal += Integer.parseInt(valString[0]) * Integer.parseInt(valString[1]);
+      }
+      cal = cal * gstRate / 100;
+      System.out.println(cal);
+      return Integer.toString(cal);
+    }
+}
+class Source{
+  public static void main(String[] args){
+    String name = "Daniel-D'Cruz";
+    System.out.println(name.matches("^[A-Za-z][A-Za-z'\\-\\s]*[A-Za-z]$"));
+  }
+}

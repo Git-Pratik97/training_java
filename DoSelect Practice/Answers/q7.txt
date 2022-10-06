@@ -1,0 +1,80 @@
+class Email{
+	// Implement Email Class according to the specifiaction.
+	Header header;
+	String body;
+	String greetings;
+
+	Email(Header header, String body, String greetings){
+		this.header = header;
+		this.body = body;
+		this.greetings = greetings;
+	}
+}
+class Header{
+	// Implemet the Header Class according to the specifiaction.
+	String from;
+	String to;
+	Header(String from, String to){
+		this.from = from;
+		this.to = to;
+	}
+}
+
+
+class EmailOperations{
+	// Implemet the Three methods specified in the specified.	
+	public int emailVerify(Email e){
+		boolean fromAddress = e.header.from.matches("^[A-Za-z_]+@.+\\.[A-Za-z]+$");
+		boolean toAddress = e.header.to.matches("^[A-Za-z_]+@.+\\.[A-Za-z]+$");
+		if(toAddress & fromAddress)
+			return 2;
+		else if(toAddress | fromAddress)
+			return 1;
+		else
+			return 0;
+	}
+	// a 97, z 122, A 65, Z 90
+	public String bodyEncryption(Email e){
+		char[] ch = e.body.toCharArray();
+		for(int i=0; i<ch.length; i++){
+			int charVal = Integer.valueOf(ch[i]);
+			//System.out.println(charVal);
+			if((charVal>96 & charVal<123)){
+				charVal += 3;
+				if(charVal>122){
+					charVal = charVal -122 +96;
+				}
+			}
+			if((charVal>64 & charVal<91)){
+				charVal += 3;
+				if(charVal>90){
+					charVal = charVal -90 + 64;
+				}
+			}
+			//System.out.println(charVal);
+			ch[i] = (char) charVal;
+		}
+		//System.out.println(Arrays.toString(ch));
+		return String.valueOf(ch);
+	}
+	public String greetingMessage(Email e){
+		String name = e.header.from.split("@")[0];
+		return e.greetings + " " + name;
+	}
+}
+
+
+public class Source {
+	public static void main(String args[] ) throws Exception {
+		/* Enter your code here. Read input from STDIN. Print output to STDOUT */
+		// You can Implement your main() to check your Program.
+		Header header = new Header("h@gmail.com", "y@gmail.com");
+		Email email = new Email(header, "Hi There Hows you", "Dear boi");
+
+		EmailOperations ops = new EmailOperations();
+		System.out.println(ops.emailVerify(email));
+		System.out.println(ops.bodyEncryption(email));
+		System.out.println(ops.greetingMessage(email));
+		//String em = "_dffds@gddg.com";
+		//System.out.println(em.matches("^[A-Za-z_]+@.+\\.[A-Za-z]+$"));
+		//System.out.println(Integer.valueOf('y'));

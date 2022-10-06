@@ -1,0 +1,69 @@
+import java.io.*;
+import java.util.*;
+import java.text.*;
+import java.math.*;
+import java.util.regex.*;
+class Activity{
+  //Implement Activity class here..
+  String string1;
+  String string2;
+  String operator;
+  Activity(String s1,  String s2, String op){
+    System.out.print("hello");
+    string1 =s1;
+    string2 = s2;
+    operator = op;
+  }
+}
+
+
+
+public class Source {
+  //Implement the two function given in description in here...
+  
+	public static void main(String args[] ) throws Exception {
+    //Write your own main to check the program...
+    Activity a1 = new Activity("Hello World", "lok", "-");
+    Source s1 = new Source();
+    System.out.println(s1.handleException(a1));
+    System.out.println(s1.doOperation(a1));
+	}
+
+  public String handleException(Activity a){
+    //System.out.println("handle exception");
+    try{
+      if(a.string1==null | a.string2==null){
+        throw new NullPointerException();
+      }
+      String op = a.operator;
+      if(op != "+" & op != "-"){
+        throw new Exception();
+      }
+    } catch (NullPointerException e){
+      return "Null values found";
+    } catch (Exception e){
+      return a.operator;
+    }
+    return "No Exception Found";
+  }
+  public String doOperation(Activity a){
+    // System.out.println("do Op");
+    // System.out.println(a.string1);
+    // System.out.println(a.string2);
+    // System.out.println(a.operator);
+    String result="";
+    switch(a.operator){
+      case "+": 
+        result=a.string1 + a.string2;
+        break;
+      case "-": 
+        int index = a.string1.indexOf(a.string2);
+        if(index != -1)
+        result = a.string1.substring(0, index) + a.string1.substring(index + a.string2.length());
+        if(index == -1) result = a.string1;
+        break;
+    }
+    
+    return result;
+  } 
+}

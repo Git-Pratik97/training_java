@@ -1,0 +1,43 @@
+import java.util.*;
+class ArrayListOps {
+	public ArrayList<Integer> makeArrayListInt(int n){
+		ArrayList<Integer> list = new ArrayList<>();
+		for(int i=0; i<n; i++) list.add(0);
+		return list;
+	}
+
+	public ArrayList<Integer> reverseList(ArrayList<Integer> list){
+		int temp;
+		int n = list.size();
+
+		for(int i=0; i<n/2; i++){
+			temp = list.get(i);
+			list.set(i, list.get(n-i-1));
+			list.set(n-i-1, temp);
+		}
+
+		return list;
+	}
+
+	public ArrayList<Integer> changeList(ArrayList<Integer> list, int m, int n){
+		for(int i=0; i<list.size(); i++){
+			if(list.get(i) == m)
+				list.set(i, n);
+		}
+		return list;
+	}
+   
+}
+public class Source{
+	public static void main(String[] args) {
+		ArrayListOps o1 = new ArrayListOps();
+		ArrayList<Integer> l1 = new ArrayList<>();
+		l1.add(1);
+		l1.add(2);
+		l1.add(3);
+
+		System.out.println(o1.makeArrayListInt(3));
+		System.out.println(o1.reverseList(l1));
+		System.out.println(o1.changeList(l1, 3, 6));
+	}
+}
